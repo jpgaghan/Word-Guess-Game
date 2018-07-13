@@ -98,7 +98,8 @@ var alphabet = new RegExp('^[a-z]*$');
 var currentwordArray = []
 var currentwordArray = []
 var usedAlphabet = []
-var currentWord, currentwordIndex, blankWord, userInput;
+var query = $("#startmenu")
+var currentWord, currentwordIndex, blankWord;
 var wordList = ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"]
 var winCount = 0
 var loseCount = 0
@@ -107,52 +108,32 @@ var christmasgameType = {
     wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
     backgroundPicture: "here",
     completionBar: "",
-    winsoundFile="",
-    losesoundFile="",
-    backgroundSong="",
-    mistakeSound="",
-    winPicture="",
-    losePicture=""
-}
-var query = $("#startmenu")
-
-function guessWord() {
-
-    blankWord = ""
-    currentwordIndex = Math.floor(Math.random() * wordList.length);
-    currentWord = wordList[currentwordIndex];
-    wordList.splice(currentwordIndex, 1)
-
-    for (var x = 0; x < 1 + currentWord.length; x++) {
-        if (currentWord.charAt(x) !== " ") {
-             blankWord = blankWord + "_";
-        }
-        
-        else blankWord = blankWord + " ";
-    }
-        return blankWord;
+    winsoundFile:"",
+    losesoundFile:"",
+    backgroundSong:"",
+    mistakeSound:"",
+    winPicture:"",
+    losePicture:""
 }
 
+var funcObject = {
 
+generateWord: function() {
+                blankWord = ""
+                currentwordIndex = Math.floor(Math.random() * wordList.length);
+                currentWord = wordList[currentwordIndex];
+                wordList.splice(currentwordIndex, 1)
 
-$(document).ready(function () {
-
-    $(".start").click(function () {
-        guessWord();
-        $("#startmenu").hide();
-        $("#game").show();
-
-    });
-
-document.onkeyup = function buttonPress(event) {
-    var userInput = event.key;
-    if (userInput.match(alphabet) == userInput) {
-        console.log(userInput)
-    }
-            if (query.is(':visible') === false) {
-                if (blankWord === undefined || blankWord === "") {
-                    blankWord = guessWord();
+                for (var x = 0; x < 1 + currentWord.length; x++) {
+                    if (currentWord.charAt(x) !== " ") {
+                        blankWord = blankWord + "_";
+                    }
+                    
+                    else blankWord = blankWord + " ";
                 }
+            },
+
+validkeyTest: function() {
                 // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
                 if (usedAlphabet.includes(userInput)) {
                     alert("previously used letter");
@@ -161,40 +142,75 @@ document.onkeyup = function buttonPress(event) {
                 else if (userInput.match(alphabet) == userInput) {
                     guessCounter = guessCounter - 1
                     usedAlphabet.push(userInput);
-                if (currentWord.includes(userInput)) {
-                    var currentwordArr = currentWord.split("");
-                    var blankwordArr = blankWord.split("");
-                    blankWord = ""
-                        for (i = 0; i < currentWord.length; i++) {
-                            if (currentWord[i] === userInput) {
-                                blankWord = blankWord + userInput
-                            }
-
-                            else blankWord = blankWord + blankwordArr[i]
-                        }
-                    }
+                    this.guessMatch
                 }
-                            else {
-                                alert("lowercase letters only");
-                            }
-                            if (!blankWord.includes("_") && (blankWord !== "")) {
-                                alert("You Win!!!!!!!!!")
-                                winCount = winCount + 1
-                                guessCounter = 15
-                                currentWord = undefined
-                                currentwordIndex = undefined
-                                blankWord = guessWord()
-                                usedAlphabet = []
-                            }
-                            if (guessCounter === 0) {
-                                alert("you lost!")
-                            }
-                            var html = "Your current word is" + blankWord + "<br> Your current guesses left are" + guessCounter + " <br> Current guessed letters" + usedAlphabet
-                            console.log(html);
-                            document.getElementById("game").innerHTML = html;
-                        }
+                else {
+                    alert("lowercase letters only");
                     }
-                });
+},      
+
+winLose :function () {
+            if (!blankWord.includes("_") && (blankWord !== "")) {
+                alert("You Win!!!!!!!!!")
+                winCount = winCount + 1
+                guessCounter = 15
+                currentWord = undefined
+                currentwordIndex = undefined
+                blankWord = this.generateWord()
+                usedAlphabet = []
+            }
+            if (guessCounter === 0) {
+                alert("you lost!")
+            }
+            this.renderHtml
+        },
+
+renderHtml :function() {                        
+                var html = "Your current word is " + blankWord + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet
+                document.getElementById("game").innerHTML = html;
+},
+
+guessMatch: function() {
+    if (currentWord.includes(userInput)) {
+        var currentwordArr = currentWord.split("");
+        var blankwordArr = blankWord.split("");
+        blankWord = ""}
+            for (i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === userInput) {
+                    blankWord = blankWord + userInput
+                }
+                else blankWord = blankWord + blankwordArr[i]
+            }       
+            this.winLose()
+        },
+                    
+}
+
+
+$(document).ready(function () {
+$(".start").click(function () {
+$("#startmenu").hide();
+$("#game").show();
+});
+});
+
+ var userInput = document.onkeyup = function(event) {
+        if (!query.is(':visible')) {
+            userInput = event.key;
+            funcObject.validkeyTest()
+            if (blankWord === undefined || blankWord === "") {
+                    funcObject.generateWord()
+                }
+        }   
+    }
+
+
+
+
+
+
+
+ 
 
     </script>
 

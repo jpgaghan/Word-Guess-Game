@@ -63,7 +63,7 @@
     <div id="startmenu">
 
         <h1>click button to start</h1>
-
+        <img src="" alt="">
         <button  type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
         <button  type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
         <button  type="button" class="btn btn-primary btn-lg start planets">Planets</button>
@@ -77,15 +77,21 @@
         <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
         <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
     </div> 
-    <div>
-
-        <div style="display:none" id="game">
+    <div style="display:none" id ="game">
+        <div id = "backgroundimage"> </div>
+        <div id="gamestatus">
                 hi
-
         </div>
+    </div>
 
- 
+    <div style="display:none" id="win">
+        <div id = "winimage"> </div>
+    </div>
+    </div>
 
+    <div style="display:none" id="lose">
+        <div id = "loseimage"> </div>
+    </div>
     </div>
 
 </body>
@@ -102,14 +108,14 @@ var winCount = 0
 var loseCount = 0
 var gameType = {
     wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
-    backgroundPicture: "here",
+    backgroundPicture: "assets/images/christmasbackground.jpg",
     completionBar: "",
     winsoundFile: new Audio("assets/sounds/christmaswin.mp3"),
     losesoundFile: new Audio("assets/sounds/christmaslose.wav"),
     backgroundSong:new Audio("assets/sounds/christmasbackground.wav"),
     mistakeSound: new Audio("assets/sounds/error.wav"),
-    winPicture:"",
-    losePicture:""
+    winPicture: "assets/images/christmaswin.jpg",
+    losePicture:"assets/images/christmaslose.jpg",
 }
 
 function replyClick(elementID) {
@@ -139,6 +145,12 @@ validkeyTest: function() {
                 if (blankWord === undefined || blankWord === "") {
                     this.generateWord()
                 }
+                if ($("#win").is(':visible') || $("#lose").is(':visible')) {
+                    $("#win").hide();
+                    $("#lose").hide();
+                    $("#game").show();
+                }
+
                 // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
                 if (usedAlphabet.includes(userInput)) {
                     alert("previously used letter");
@@ -157,7 +169,7 @@ validkeyTest: function() {
 
 renderHtml :function() {                        
                 var html = "Your current word is " + blankWord + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet
-                document.getElementById("game").innerHTML = html;
+                document.getElementById("gamestatus").innerHTML = html;
 },
 
 winLose :function () {
@@ -170,10 +182,16 @@ winLose :function () {
                 blankWord = this.generateWord()
                 usedAlphabet = []
                 gameType.winsoundFile.play();
+                $("#winimage").html('<img src="' + gameType.winPicture + '"alt="backgroundimage">');
+                $("#game").hide();
+                $("#win").show();
             }
             if (guessCounter === 0) {
                 alert("you lost!")
                 gameType.losesoundFile.play();
+                $("#loseimage").html('<img src="' + gameType.losePicture + '"alt="backgroundimage">');
+                $("#game").hide();
+                $("#lose").show();
             }
             this.renderHtml()
         },
@@ -228,15 +246,14 @@ $(document).ready(function () {
         gameType.backgroundSong.loop = true;
         gameType.backgroundSong.play();
         $("#difficultyparent").hide();
+        $("#backgroundimage").html('<img src="' + gameType.backgroundPicture + '"alt="backgroundimage">');
         $("#game").show();
-    });
+    }); 
 });
 
 
  var userInput = document.onkeyup = function(event) {
-    Start= $("#startmenu")
-    Difficulty = $("#startmenu")
-        if (!Start.is(':visible') && (!Difficulty.is(':visible'))) {
+        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible'))) {
             userInput = event.key;
             funcObject.validkeyTest();
 

@@ -58,8 +58,6 @@
 
 </head>
 
- 
-
 <body>
 
     <div id="startmenu">
@@ -73,12 +71,12 @@
 
     </div>
 
-    <div style="display:none" id="difficulty">
+    <div style="display:none" id="difficultyparent">
         <h1>Choose your difficulty</h1>
-        <button id = "hard" type="button" class="btn btn-primary btn-lg">Hard</button>
-        <button id = "medium" type="button" class="btn btn-primary btn-lg">Medium</button>
-        <button id = "easy" type="button" class="btn btn-primary btn-lg">Easy</button>
-    </div>
+        <button id = "difficulty1"  type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
+        <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
+        <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
+    </div> 
     <div>
 
         <div style="display:none" id="game">
@@ -99,30 +97,33 @@ var currentwordArray = []
 var currentwordArray = []
 var usedAlphabet = []
 var query = $("#startmenu")
-var currentWord, currentwordIndex, blankWord;
-var wordList = ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"]
+var currentWord, currentwordIndex, blankWord, guessCounter, guesscounterStore
 var winCount = 0
 var loseCount = 0
-var guessCounter = 15
-var christmasgameType = {
+var gameType = {
     wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
     backgroundPicture: "here",
     completionBar: "",
-    winsoundFile:"",
-    losesoundFile:"",
-    backgroundSong:"",
-    mistakeSound:"",
+    winsoundFile: new Audio("assets/sounds/christmaswin.mp3"),
+    losesoundFile: new Audio("assets/sounds/christmaslose.wav"),
+    backgroundSong:new Audio("assets/sounds/christmasbackground.wav"),
+    mistakeSound: new Audio("assets/sounds/error.wav"),
     winPicture:"",
     losePicture:""
 }
 
+function replyClick(elementID) {
+      return elementID
+    }
+
 var funcObject = {
+
 
 generateWord: function() {
                 blankWord = ""
-                currentwordIndex = Math.floor(Math.random() * wordList.length);
-                currentWord = wordList[currentwordIndex];
-                wordList.splice(currentwordIndex, 1)
+                currentwordIndex = Math.floor(Math.random() * gameType.wordList.length);
+                currentWord = gameType.wordList[currentwordIndex];
+                gameType.wordList.splice(currentwordIndex, 1)
 
                 for (var x = 0; x < 1 + currentWord.length; x++) {
                     if (currentWord.charAt(x) !== " ") {
@@ -131,76 +132,114 @@ generateWord: function() {
                     
                     else blankWord = blankWord + " ";
                 }
+                return blankWord
             },
 
 validkeyTest: function() {
+                if (blankWord === undefined || blankWord === "") {
+                    this.generateWord()
+                }
                 // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
                 if (usedAlphabet.includes(userInput)) {
                     alert("previously used letter");
+                    gameType.mistakeSound.play();
                 }
                 
                 else if (userInput.match(alphabet) == userInput) {
-                    guessCounter = guessCounter - 1
                     usedAlphabet.push(userInput);
-                    this.guessMatch
+                    this.guessMatch()
                 }
                 else {
                     alert("lowercase letters only");
+                    gameType.mistakeSound.play();
                     }
 },      
-
-winLose :function () {
-            if (!blankWord.includes("_") && (blankWord !== "")) {
-                alert("You Win!!!!!!!!!")
-                winCount = winCount + 1
-                guessCounter = 15
-                currentWord = undefined
-                currentwordIndex = undefined
-                blankWord = this.generateWord()
-                usedAlphabet = []
-            }
-            if (guessCounter === 0) {
-                alert("you lost!")
-            }
-            this.renderHtml
-        },
 
 renderHtml :function() {                        
                 var html = "Your current word is " + blankWord + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet
                 document.getElementById("game").innerHTML = html;
 },
 
+winLose :function () {
+            if (!blankWord.includes("_") && (blankWord !== "")) {
+                alert("You Win!!!!!!!!!")
+                winCount = winCount + 1
+                guessCounter = guesscounterStore
+                currentWord = ""
+                currentwordIndex = ""
+                blankWord = this.generateWord()
+                usedAlphabet = []
+                gameType.winsoundFile.play();
+            }
+            if (guessCounter === 0) {
+                alert("you lost!")
+                gameType.losesoundFile.play();
+            }
+            this.renderHtml()
+        },
+
+
+
 guessMatch: function() {
     if (currentWord.includes(userInput)) {
         var currentwordArr = currentWord.split("");
         var blankwordArr = blankWord.split("");
-        blankWord = ""}
+        blankWord = ""
             for (i = 0; i < currentWord.length; i++) {
                 if (currentWord[i] === userInput) {
                     blankWord = blankWord + userInput
+
                 }
                 else blankWord = blankWord + blankwordArr[i]
             }       
-            this.winLose()
-        },
-                    
+        }
+    else {guessCounter--}
+        this.winLose()             
+},
+
+guessCounter: function(id) {
+        if (id.includes("1")) {
+            guessCounter=5
+            }
+        else if (id.includes("2")) {
+            guessCounter=8
+        }
+        else {guessCounter=10}
+        guesscounterStore=guessCounter
 }
+        
+}
+
+
 
 
 $(document).ready(function () {
 $(".start").click(function () {
 $("#startmenu").hide();
-$("#game").show();
+$("#difficultyparent").show();
+gameType.backgroundSong.loop = true;
+gameType.backgroundSong.play();
 });
 });
 
+$(document).ready(function () {
+    $(".diffSelector").click(function () {
+        funcObject.guessCounter(this.id)
+        gameType.backgroundSong.loop = true;
+        gameType.backgroundSong.play();
+        $("#difficultyparent").hide();
+        $("#game").show();
+    });
+});
+
+
  var userInput = document.onkeyup = function(event) {
-        if (!query.is(':visible')) {
+    Start= $("#startmenu")
+    Difficulty = $("#startmenu")
+        if (!Start.is(':visible') && (!Difficulty.is(':visible'))) {
             userInput = event.key;
-            funcObject.validkeyTest()
-            if (blankWord === undefined || blankWord === "") {
-                    funcObject.generateWord()
-                }
+            funcObject.validkeyTest();
+
         }   
     }
 

@@ -86,20 +86,21 @@ validkeyTest: function() {
                     gameData[gametypeIndex].backgroundSong.loop = true;
                     gameData[gametypeIndex].backgroundSong.play();
                 }
-
+                if (!$("#lose").is(':visible') && (!$("win").is(':visible')))
                 // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
-                if (usedAlphabet.includes(userInput)) {
-                    alert("previously used letter");
-                    gameData[gametypeIndex].mistakeSound.play();
-                }
-                
-                else if (userInput.match(alphabet) == userInput) {
-                    usedAlphabet.push(userInput);
-                    this.guessMatch()
-                }
-                else {
-                    gameData[gametypeIndex].mistakeSound.play();
+                    if (usedAlphabet.includes(userInput)) {
+                        alert("previously used letter");
+                        gameData[gametypeIndex].mistakeSound.play();
                     }
+                    
+                    else if (userInput.match(alphabet) == userInput) {
+                        usedAlphabet.push(userInput);
+                        this.guessMatch()
+                    }
+                    else {
+                        gameData[gametypeIndex].mistakeSound.play();
+                        }
+                    
 },      
 
 renderHtml :function() {
@@ -212,11 +213,11 @@ $(document).ready(function () {
 
 
  var userInput = document.onkeyup = function(event) {
-        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible')) && (!$("#lose").is(':visible')) && (!$("#win").is(':visible'))) {
+        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible'))) {
             userInput = event.key;
             funcObject.validkeyTest();
         }
-        
+            
     }
 
 $(document).ready(function () {

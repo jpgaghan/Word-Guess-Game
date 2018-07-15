@@ -27,7 +27,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
-
+    <script src="assets/javascript/game.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
     <title>Document</title>
@@ -36,24 +36,35 @@
 
 </head>
 
-<body id = "body">
+<body id = "body" class = "body">
+        <!-- As a heading -->
+
     <div style="display:none" id="backgroundimage" class="game"></div>
     <div style="display:none" id="loseimage" class="lose"></div>
     <div style="display:none" id="winimage" class="win"></div>
 
     <div id="startmenu">
+            <nav id= "navbar" class="navbar navbar-light bg-light sticky-top text-center">
+                <span class="navbar-brand mb-0 h1 w-100 text-center sticky-top">Word Guess Game</span>
+            </nav>
 
-        <h1>click button to start</h1>
-        <img src="" alt="">
-        <button  id = "start0" type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
-        <button  id = "start1" type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
-        <button  id = "start2" type="button" class="btn btn-primary btn-lg start planets">Space</button>
-        <button  id = "start3" type="button" class="btn btn-primary btn-lg start football">Football</button>
+            <div class="jumbotron text-center bg-danger mt-5">
+                    <h2>Select your games theme type to play!</h2>
+                    <p class="lead">
+                            <button id = "start0" type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
+                            <button  id = "start1" type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
+                            <button  id = "start2" type="button" class="btn btn-primary btn-lg start planets">Space</button>
+                            <button  id = "start3" type="button" class="btn btn-primary btn-lg start football">Football</button>
+                    </p>
+                  </div>
+
 
     </div>
 
     <div style="display:none" id="difficultyparent">
-        <h1>Choose your difficulty</h1>
+        <nav id= "navbar" class="navbar navbar-light bg-light sticky-top text-center">
+                <span class="navbar-brand mb-0 h1 w-100 text-center sticky-top"><h2>Choose your difficulty!</h2></span>
+        </nav>
         <button id = "difficulty1"  type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
         <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
         <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
@@ -82,238 +93,6 @@
 
 </body>
 
-<script>
 
-var alphabet = new RegExp('^[a-z]*$');
-var currentwordArray = []
-var currentwordArray = []
-var usedAlphabet = []
-var query = $("#startmenu")
-var currentWord, currentwordIndex, blankWord, guessCounter, guesscounterStore, gametypeIndex, blankwordArr
-var winCount = 0
-var loseCount = 0
-var gameData = [
-    {wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
-    backgroundPicture: "assets/images/christmasbackground.jpg",
-    completionBar: "",
-    winsoundFile: new Audio("assets/sounds/christmaswin.mp3"),
-    losesoundFile: new Audio("assets/sounds/christmaslose.wav"),
-    backgroundSong:new Audio("assets/sounds/christmasbackground.wav"),
-    mistakeSound: new Audio("assets/sounds/error.wav"),
-    winPicture: "assets/images/christmaswin.jpg",
-    losePicture:"assets/images/christmaslose.jpg", },
-
-{ wordList: ["charlotte", "new york", "miami", "san francisco", "houston", "colorado", "new orleans", "seattle", "baltimore"],
-backgroundPicture: "assets/images/citybackground.jpg",
-completionBar: "",
-winsoundFile: new Audio("assets/sounds/citywin.mp3"),
-losesoundFile: new Audio("assets/sounds/citylose.mp3"),
-backgroundSong:new Audio("assets/sounds/citybackground.mp3"),
-mistakeSound: new Audio("assets/sounds/error.wav"),
-winPicture: "assets/images/citywin.jpg",
-losePicture:"assets/images/citylose.jpg", },
-
-{ wordList: ["saturn", "jupiter", "uranus", "neptune", "mercury", "asteroid", "satellite", "astronaut", "rocket"],
-backgroundPicture: "assets/images/spacebackground.jpg",
-completionBar: "",
-winsoundFile: new Audio("assets/sounds/spacewin.mp3"),
-losesoundFile: new Audio("assets/sounds/spacelose.mp3"),
-backgroundSong: new Audio("assets/sounds/spacebackground.mp3"),
-mistakeSound: new Audio("assets/sounds/error.wav"),
-winPicture: "assets/images/spacewin.jpg",
-losePicture:"assets/images/spacelose.jpg", },
-
-{ wordList: ["quarterback", "running back", "kicker", "end zone", "touchdown", "tight end", "linebacker", "wide receiver", "yard line"],
-backgroundPicture: "assets/images/footballbackground.jpg",
-completionBar: "",
-winsoundFile: new Audio("assets/sounds/footballwin.mp3"),
-losesoundFile: new Audio("assets/sounds/footballlose.mp3"),
-backgroundSong:new Audio("assets/sounds/footballbackground.mp3"),
-mistakeSound: new Audio("assets/sounds/error.wav"),
-winPicture: "assets/images/footballwin.jpg",
-losePicture:"assets/images/footballlose.jpg", }
-
-]
-
-var funcObject = {
-
-
-generateWord: function() {
-                blankWord = ""
-                currentwordIndex = Math.floor(Math.random() * gameData[gametypeIndex].wordList.length);
-                currentWord = gameData[gametypeIndex].wordList[currentwordIndex];
-                gameData[gametypeIndex].wordList.splice(currentwordIndex, 1)
-
-                for (var x = 0; x < currentWord.length; x++) {
-                    if (currentWord.charAt(x) !== " ") {
-                        blankWord = blankWord + "_";
-                    }
-                    
-                    else blankWord = blankWord + " ";
-                }
-                blankwordArr = blankWord.split("");
-                return blankWord
-            },
-
-validkeyTest: function() {
-                if (blankWord === undefined || blankWord === "") {
-                    this.generateWord()
-                }
-                if ($("#win").is(':visible') || $("#lose").is(':visible')) {
-                    $("#win").hide(); 
-                    $(".win").hide();                 
-                    $("#lose").hide();
-                    $(".lose").hide();                   
-                    $("#game").show();
-                    $(".game").show();
-                    gameData[gametypeIndex].winsoundFile.pause();
-                    gameData[gametypeIndex].backgroundSong.loop = true;
-                    gameData[gametypeIndex].backgroundSong.play();
-                }
-
-                // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
-                if (usedAlphabet.includes(userInput)) {
-                    alert("previously used letter");
-                    gameData[gametypeIndex].mistakeSound.play();
-                }
-                
-                else if (userInput.match(alphabet) == userInput) {
-                    usedAlphabet.push(userInput);
-                    this.guessMatch()
-                }
-                else {
-                    gameData[gametypeIndex].mistakeSound.play();
-                    }
-},      
-
-renderHtml :function() {
-                wordSeen = blankwordArr.join(" ");                       
-                var html = "Your current word is " + wordSeen + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet + "<br> Win Count: " + winCount + "<br> Lose Count: " + loseCount
-                document.getElementById("gamestatus").innerHTML = html
-            if (gameData[gametypeIndex].backgroundSong.loop = false) {
-                gameData[gametypeIndex].backgroundSong.loop = true;
-                gameData[gametypeIndex].backgroundSong.play();
-            }
-
-},
-
-winLose :function () {
-            if (!blankWord.includes("_") && (blankWord !== "")) {
-                alert("You Win!!!!!!!!!")
-                winCount++;
-                guessCounter = guesscounterStore
-                currentWord = ""
-                currentwordIndex = ""
-                blankWord = this.generateWord()
-                usedAlphabet = []
-                gameData[gametypeIndex].backgroundSong.loop = false;
-                gameData[gametypeIndex].backgroundSong.pause();
-                gameData[gametypeIndex].winsoundFile.currentTime = 0
-                gameData[gametypeIndex].winsoundFile.play();
-                $(".win").html('<img class = "bg" src="' + gameData[gametypeIndex].winPicture + '"alt="backgroundimage">');
-                $(".game").hide();
-                $("#game").hide();
-                $(".win").show();
-                $("#win").show();
-            }
-            if (guessCounter === 0) {
-                alert("you lost!")
-                loseCount++;
-                guessCounter = guesscounterStore
-                currentWord = ""
-                currentwordIndex = ""
-                blankWord = this.generateWord()
-                usedAlphabet = []
-                gameData[gametypeIndex].backgroundSong.loop = false;
-                gameData[gametypeIndex].backgroundSong.pause();
-                gameData[gametypeIndex].losesoundFile.currentTime = 0
-                gameData[gametypeIndex].losesoundFile.play();
-                $(".lose").html('<img class = "bg" src="' + gameData[gametypeIndex].losePicture + '"alt="backgroundimage">');
-                $("#game").hide();
-                $(".game").hide();
-                $("#lose").show();
-                $(".lose").show();
-            }
-            this.renderHtml()
-        },
-
-
-
-guessMatch: function() {
-    if (currentWord.includes(userInput)) {
-        var currentwordArr = currentWord.split("");
-        blankWord = ""
-            for (i = 0; i < currentWord.length; i++) {
-                if (currentWord[i] === userInput) {
-                    blankWord = blankWord + userInput
-                }
-                else blankWord = blankWord + blankwordArr[i]
-            }
-            blankwordArr = blankWord.split("");       
-        }
-    else {guessCounter--}
-        this.winLose()             
-},
-
-guessCounter: function(id) {
-        if (id.includes("1")) {
-            guessCounter=5
-            }
-        else if (id.includes("2")) {
-            guessCounter=8
-        }
-        else {guessCounter=10}
-        guesscounterStore=guessCounter
-}
-        
-}
-
-
-
-
-$(document).ready(function () {
-    $(".start").click(function () {
-        gametypeIndex = parseInt(this.id[5]);
-        $("#startmenu").hide();
-        $("#difficultyparent").show();
-        gameData[gametypeIndex].backgroundSong.loop = true;
-        gameData[gametypeIndex].backgroundSong.play();
-        });
-    });
-
-$(document).ready(function () {
-    $(".diffSelector").click(function () {
-        funcObject.guessCounter(this.id);
-        funcObject.generateWord();
-        funcObject.renderHtml();
-        $("#difficultyparent").hide();
-        $(".game").html('<img class = "bg" src="' + gameData[gametypeIndex].backgroundPicture + '"alt="backgroundimage">');
-        $(".game").show()
-        $("#game").show();
-    }); 
-});
-
-
- var userInput = document.onkeyup = function(event) {
-        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible'))) {
-            userInput = event.key;
-            funcObject.validkeyTest();
-
-        }   
-    }
-
-$(document).ready(function () {
-    $("#reset").click(function () {
-        location.reload();
-    });
-});
-
-
-
-
-
- 
-
-    </script>
 
 </html>

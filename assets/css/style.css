@@ -17,6 +17,11 @@ body, html {
     width: 100%;
 }
 
+.body {
+    margin-bottom: 120px; /* Margin bottom by footer height */
+    background-image: url(../images/startbackground.png);
+  }
+
 .bg {
     /* Full height */
     height: 100%;

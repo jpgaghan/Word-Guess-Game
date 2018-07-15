@@ -1,286 +1,226 @@
 
-var wordList = ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"]
-
-
-
+var alphabet = new RegExp('^[a-z]*$');
 var currentwordArray = []
-
-
-
-var currentWord, currentwordIndex, blankWord, userInput;
-
-
-
-var winCount = 0
-
-
-
-var loseCount = 0
-
-
-
-var guessCounter = 15
-
-var regexExpression = new RegExp('^[a-zA-Z]*$');
-
-if (regexExpression =="a") {
-    console.log("a")
-}
-
-if (regexExpression =="b") {
-    console.log("b")
-}
-
+var currentwordArray = []
+var usedAlphabet = []
 var query = $("#startmenu")
+var currentWord, currentwordIndex, blankWord, guessCounter, guesscounterStore, gametypeIndex, blankwordArr
+var winCount = 0
+var loseCount = 0
+var gameData = [
+    {wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
+    backgroundPicture: "assets/images/christmasbackground.jpg",
+    completionBar: "",
+    winsoundFile: new Audio("assets/sounds/christmaswin.mp3"),
+    losesoundFile: new Audio("assets/sounds/christmaslose.wav"),
+    backgroundSong:new Audio("assets/sounds/christmasbackground.wav"),
+    mistakeSound: new Audio("assets/sounds/error.wav"),
+    winPicture: "assets/images/christmaswin.jpg",
+    losePicture:"assets/images/christmaslose.jpg", },
 
-function CreateblankWord() {
+{ wordList: ["charlotte", "new york", "miami", "san francisco", "houston", "colorado", "new orleans", "seattle", "baltimore"],
+backgroundPicture: "assets/images/citybackground.jpg",
+completionBar: "",
+winsoundFile: new Audio("assets/sounds/citywin.mp3"),
+losesoundFile: new Audio("assets/sounds/citylose.mp3"),
+backgroundSong:new Audio("assets/sounds/citybackground.mp3"),
+mistakeSound: new Audio("assets/sounds/error.wav"),
+winPicture: "assets/images/citywin.jpg",
+losePicture:"assets/images/citylose.jpg", },
 
-    blankWord = ""
+{ wordList: ["saturn", "jupiter", "uranus", "neptune", "mercury", "asteroid", "satellite", "astronaut", "rocket"],
+backgroundPicture: "assets/images/spacebackground.jpg",
+completionBar: "",
+winsoundFile: new Audio("assets/sounds/spacewin.mp3"),
+losesoundFile: new Audio("assets/sounds/spacelose.mp3"),
+backgroundSong: new Audio("assets/sounds/spacebackground.mp3"),
+mistakeSound: new Audio("assets/sounds/error.wav"),
+winPicture: "assets/images/spacewin.jpg",
+losePicture:"assets/images/spacelose.jpg", },
 
-    currentwordIndex = Math.floor(Math.random() * wordList.length);
+{ wordList: ["quarterback", "running back", "kicker", "end zone", "touchdown", "tight end", "linebacker", "wide receiver", "yard line"],
+backgroundPicture: "assets/images/footballbackground.jpg",
+completionBar: "",
+winsoundFile: new Audio("assets/sounds/footballwin.mp3"),
+losesoundFile: new Audio("assets/sounds/footballlose.mp3"),
+backgroundSong:new Audio("assets/sounds/footballbackground.mp3"),
+mistakeSound: new Audio("assets/sounds/error.wav"),
+winPicture: "assets/images/footballwin.jpg",
+losePicture:"assets/images/footballlose.jpg", }
 
-    currentWord = wordList[currentwordIndex];
+]
 
-    wordList.splice(currentwordIndex, 1)
-
-    for (var x = 0; x < 1 + currentWord.length; x++) {
-
-        if (currentWord.charAt(x) !== " ") {
+var funcObject = {
 
 
+generateWord: function() {
+                blankWord = ""
+                currentwordIndex = Math.floor(Math.random() * gameData[gametypeIndex].wordList.length);
+                currentWord = gameData[gametypeIndex].wordList[currentwordIndex];
+                gameData[gametypeIndex].wordList.splice(currentwordIndex, 1)
 
-            blankWord = blankWord + "_";
+                for (var x = 0; x < currentWord.length; x++) {
+                    if (currentWord.charAt(x) !== " ") {
+                        blankWord = blankWord + "_";
+                    }
+                    
+                    else blankWord = blankWord + "  ";
+                }
+                blankwordArr = blankWord.split("");
+                return blankWord
+            },
+
+validkeyTest: function() {
+                if (blankWord === undefined || blankWord === "") {
+                    this.generateWord()
+                }
+                
+                if ($("#win").is(':visible') || $("#lose").is(':visible')) {
+                    $("#win").hide(); 
+                    $(".win").hide();                 
+                    $("#lose").hide();
+                    $(".lose").hide();                   
+                    $("#game").show();
+                    $(".game").show();
+                    gameData[gametypeIndex].winsoundFile.pause();
+                    gameData[gametypeIndex].backgroundSong.loop = true;
+                    gameData[gametypeIndex].backgroundSong.play();
+                }
+
+                // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
+                if (usedAlphabet.includes(userInput)) {
+                    alert("previously used letter");
+                    gameData[gametypeIndex].mistakeSound.play();
+                }
+                
+                else if (userInput.match(alphabet) == userInput) {
+                    usedAlphabet.push(userInput);
+                    this.guessMatch()
+                }
+                else {
+                    gameData[gametypeIndex].mistakeSound.play();
+                    }
+},      
+
+renderHtml :function() {
+                wordSeen = blankwordArr.join(" ");                       
+                var html = "Your current word is " + wordSeen + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet + "<br> Win Count: " + winCount + "<br> Lose Count: " + loseCount
+                document.getElementById("gamestatus").innerHTML = html
+            if (gameData[gametypeIndex].backgroundSong.loop = false) {
+                gameData[gametypeIndex].backgroundSong.loop = true;
+                gameData[gametypeIndex].backgroundSong.play();
+            }
+
+},
+
+winLose :function () {
+            if (!blankWord.includes("_") && (blankWord !== "")) {
+                alert("You Win!!!!!!!!!")
+                winCount++;
+                guessCounter = guesscounterStore
+                currentWord = ""
+                currentwordIndex = ""
+                blankWord = this.generateWord()
+                usedAlphabet = []
+                gameData[gametypeIndex].backgroundSong.loop = false;
+                gameData[gametypeIndex].backgroundSong.pause();
+                gameData[gametypeIndex].winsoundFile.currentTime = 0
+                gameData[gametypeIndex].winsoundFile.play();
+                $(".win").html('<img class = "bg" src="' + gameData[gametypeIndex].winPicture + '"alt="backgroundimage">');
+                $(".game").hide();
+                $("#game").hide();
+                $(".win").show();
+                $("#win").show();
+            }
+            if (guessCounter === 0) {
+                alert("you lost!")
+                loseCount++;
+                guessCounter = guesscounterStore
+                currentWord = ""
+                currentwordIndex = ""
+                blankWord = this.generateWord()
+                usedAlphabet = []
+                gameData[gametypeIndex].backgroundSong.loop = false;
+                gameData[gametypeIndex].backgroundSong.pause();
+                gameData[gametypeIndex].losesoundFile.currentTime = 0
+                gameData[gametypeIndex].losesoundFile.play();
+                $(".lose").html('<img class = "bg" src="' + gameData[gametypeIndex].losePicture + '"alt="backgroundimage">');
+                $("#game").hide();
+                $(".game").hide();
+                $("#lose").show();
+                $(".lose").show();
+            }
+            this.renderHtml()
+        },
 
 
 
+guessMatch: function() {
+    if (currentWord.includes(userInput)) {
+        var currentwordArr = currentWord.split("");
+        blankWord = ""
+            for (i = 0; i < currentWord.length; i++) {
+                if (currentWord[i] === userInput) {
+                    blankWord = blankWord + userInput
+                }
+                else blankWord = blankWord + blankwordArr[i]
+            }
+            blankwordArr = blankWord.split("");       
         }
+    else {guessCounter--}
+        this.winLose()             
+},
 
-
-
-        else blankWord = blankWord + " ";
-
-
-
-
-
-
-
-    }
-
-
-
-    console.log(blankWord);
-
-
-
-    return blankWord;
-
-
-
+guessCounter: function(id) {
+        if (id.includes("1")) {
+            guessCounter=5
+            }
+        else if (id.includes("2")) {
+            guessCounter=8
+        }
+        else {guessCounter=10}
+        guesscounterStore=guessCounter
 }
+        
+}
+
 
 
 
 $(document).ready(function () {
-
     $(".start").click(function () {
-
-        CreateblankWord();
-
-        $("#startmenu").hide();
-        $("#game").show();
-
+        gametypeIndex = parseInt(this.id[5]);
+        $("#startmenu").hide(); 
+        document.getElementById("navbar").remove();
+        $("#difficultyparent").show();
+        });
     });
 
-
-
-    var alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-
-
-
-    var usedAlphabet = []
-
-    document.onkeyup = function buttonPress(event) {
-
-        // $(document).ready(function(){
-
-        // $("button").click(function() {
-
-        // $("#container").hide();
-
-        // });
-
-        // });
-
-        if (query.is(':visible') === false) {
-
-
-
-            if (blankWord === undefined || blankWord === "") {
-
-
-
-                blankWord = CreateblankWord();
-
-
-
-            }
-
-
-
-            var userInput = event.key;
-
-
-
-            // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
-
-
-
-            if (usedAlphabet.includes(userInput)) {
-
-
-
-                alert("previously used letter");
-
-
-
-            }
-
-
-
-            else if (alphabet.includes(userInput)) {
-
-
-
-                var index = alphabet.indexOf(userInput);
-
-
-
-                guessCounter = guessCounter - 1
-
-
-
-                alphabet.splice(index, 1);
-
-
-
-                usedAlphabet.push(userInput);
-
-
-
-                console.log(alphabet);
-
-
-
-                if (currentWord.includes(userInput)) {
-
-
-
-                    var currentwordArr = currentWord.split("");
-
-
-
-                    var blankwordArr = blankWord.split("");
-
-
-
-                    blankWord = ""
-
-
-
-                    for (i = 0; i < currentWord.length; i++) {
-
-
-
-                        if (currentWord[i] === userInput) {
-
-                            blankWord = blankWord + userInput
-
-                        }
-
-
-
-                        else blankWord = blankWord + blankwordArr[i]
-
-
-
-                    }
-
-
-
-                }
-
-
-
-            }
-
-
-
-            else if (!usedAlphabet.includes(userInput)) {
-
-
-
-                alert("lowercase letters only");
-
-
-
-            }
-
-
-
-            if (!blankWord.includes("_") && (blankWord !== "")) {
-
-
-
-                alert("You Win!!!!!!!!!")
-
-
-
-                winCount = winCount + 1
-
-
-
-                guessCounter = 15
-
-
-
-                currentWord = undefined
-
-
-
-                currentwordIndex = undefined
-
-
-
-                blankWord = CreateblankWord()
-
-
-
-
-
-                usedAlphabet = []
-
-
-
-                alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-
-            }
-
-
-
-            if (guessCounter === 0) {
-
-
-
-                alert("you lost!")
-
-
-            }
-            var html = "Your current word is" + blankWord + "<br> Your current guesses left are" + guessCounter + " <br> Current guessed letters" + usedAlphabet
-            console.log(html);
-
-            document.getElementById("game").innerHTML = html;
+$(document).ready(function () {
+    $(".diffSelector").click(function () {
+        funcObject.guessCounter(this.id);
+        funcObject.generateWord();
+        funcObject.renderHtml();
+        $("#difficultyparent").hide();
+        $(".game").html('<img class = "bg" src="' + gameData[gametypeIndex].backgroundPicture + '"alt="backgroundimage">');
+        $(".game").show()
+        $("#game").show();
+        gameData[gametypeIndex].backgroundSong.loop = true;
+        gameData[gametypeIndex].backgroundSong.play();
+    }); 
+});
+
+
+ var userInput = document.onkeyup = function(event) {
+        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible')) && (!$("#lose").is(':visible')) && (!$("#win").is(':visible'))) {
+            userInput = event.key;
+            funcObject.validkeyTest();
         }
+        
     }
 
+$(document).ready(function () {
+    $("#reset").click(function () {
+        location.reload();
+    });
 });

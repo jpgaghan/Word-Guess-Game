@@ -1,0 +1,35 @@
+body, html {
+    height: 100%;
+}
+
+#backgroundimage{
+    height: 100%;
+    width: 100%;
+}
+
+#winimage{
+    height: 100%;
+    width: 100%;
+}
+
+#loseimage{
+    height: 100%;
+    width: 100%;
+}
+
+.bg {
+    /* Full height */
+    height: 100%;
+    width: 100%;
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#cardlocation{
+    position: absolute;
+    z-index: 1;
+    bottom: 235px;
+    right: 574px;
+}

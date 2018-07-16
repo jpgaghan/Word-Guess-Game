@@ -8,7 +8,7 @@ var currentWord, currentwordIndex, blankWord, guessCounter, guesscounterStore, g
 var winCount = 0
 var loseCount = 0
 var gameData = [
-    {wordList: ["reindeer", "santa claus", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
+    {wordList: ["reindeer", "mistletoe", "rudolf", "stocking", "nutcracker", "ornaments", "elves", "candy cane", "presents"],
     backgroundPicture: "assets/images/christmasbackground.jpg",
     completionBar: "",
     winsoundFile: new Audio("assets/sounds/christmaswin.mp3"),
@@ -18,7 +18,7 @@ var gameData = [
     winPicture: "assets/images/christmaswin.jpg",
     losePicture:"assets/images/christmaslose.jpg", },
 
-{ wordList: ["charlotte", "new york", "miami", "san francisco", "houston", "colorado", "new orleans", "seattle", "baltimore"],
+{ wordList: ["charlotte", "orlando", "miami", "knoxville", "houston", "colorado", "pensacola", "seattle", "baltimore"],
 backgroundPicture: "assets/images/citybackground.jpg",
 completionBar: "",
 winsoundFile: new Audio("assets/sounds/citywin.mp3"),
@@ -38,7 +38,7 @@ mistakeSound: new Audio("assets/sounds/error.wav"),
 winPicture: "assets/images/spacewin.jpg",
 losePicture:"assets/images/spacelose.jpg", },
 
-{ wordList: ["quarterback", "running back", "kicker", "end zone", "touchdown", "tight end", "linebacker", "wide receiver", "yard line"],
+{ wordList: ["quarterback", "penalties", "kicker", "interception", "touchdown", "safety", "linebacker", "kickoff", "fumble"],
 backgroundPicture: "assets/images/footballbackground.jpg",
 completionBar: "",
 winsoundFile: new Audio("assets/sounds/footballwin.mp3"),
@@ -123,7 +123,6 @@ renderHtml :function() {
 
 winLose :function () {
             if (!blankWord.includes("_") && (blankWord !== "")) {
-                alert("You Win!!!!!!!!!")
                 winCount++;
                 guessCounter = guesscounterStore
                 currentWord = ""

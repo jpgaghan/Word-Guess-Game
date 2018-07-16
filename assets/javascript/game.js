@@ -1,4 +1,3 @@
-
 var alphabet = new RegExp('^[a-z]*$');
 var currentwordArray = []
 var usedwordList = []
@@ -72,7 +71,6 @@ generateWord: function() {
                     else blankWord = blankWord + "  ";
                 }
                 blankwordArr = blankWord.split("");
-                console.log(blankwordArr)
                 return blankWord
             },
 
@@ -109,9 +107,7 @@ validkeyTest: function() {
 },      
 
 renderHtml :function() {
-                wordSeen = blankwordArr.join(" ");
-                console.log(wordSeen)
-                console.log(wordSeen.length)                       
+                wordSeen = blankwordArr.join(" ");                     
                 var html = "Your current word is " + wordSeen + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet + "<br> Win Count: " + winCount + "<br> Lose Count: " + loseCount
                 document.getElementById("gamestatus").innerHTML = html
             if (gameData[gametypeIndex].backgroundSong.loop = false) {

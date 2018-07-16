@@ -37,19 +37,20 @@
 </head>
 
 <body id = "body" class = "body">
-        <!-- As a heading -->
 
     <div style="display:none" id="backgroundimage" class="game"></div>
     <div style="display:none" id="loseimage" class="lose"></div>
     <div style="display:none" id="winimage" class="win"></div>
 
     <div id="startmenu">
-            <nav id= "navbar" class="navbar navbar-light bg-light sticky-top text-center">
-                <span class="navbar-brand mb-0 h1 w-100 text-center sticky-top">Word Guess Game</span>
+            <nav id= "navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
+                    <span class="navbar-brand m-0 h1 w-100 text-center sticky-top"> 
+                        <h2>Word Guess Game</h2> 
+                    </span>
             </nav>
 
             <div class="jumbotron text-center bg-danger mt-5">
-                    <h2>Select your games theme type to play!</h2>
+                    <h2>Select your game's theme to play!</h2>
                     <p class="lead">
                             <button id = "start0" type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
                             <button  id = "start1" type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
@@ -63,33 +64,64 @@
 
     <div style="display:none" id="difficultyparent">
         
-        <nav id= "navbar" class="navbar navbar-light bg-light sticky-top text-center">
-                <span class="navbar-brand mb-0 h1 w-100 text-center sticky-top"><h2>Choose your difficulty!</h2></span>
+        <nav id= "navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
+                <span class="navbar-brand m-0 h1 w-100 text-center sticky-top"><h2>Choose your difficulty!</h2></span>
         </nav>
-
-        <button id = "difficulty1"  type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
-        <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
-        <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
+        <div class="jumbotron text-center bg-danger mt-5">
+            <p class="lead">
+                <button id = "difficulty1"  type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
+                <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
+                <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
+            </p>
+        </div>
     </div> 
 
     <div style="display:none" id ="game"> 
         <div id="cardlocation">
             <div class="card">
-                    <div class="card-body">
-                      <p id = "gamestatus"class="card-text"></p>
-                      <a id="reset" class="btn btn-primary">Main Menu</a>
-                    </div>
-                  </div>
+                <div class="card-body">
+                    <p id = "gamestatus"class="card-text"></p>
+                    <a id="reset" class="btn btn-primary">Main Menu</a>
+                </div>
+            </div>
         </div>   
     </div>
 
     <div style="display:none" id="win">
-        <div id = "winimage"> </div>
+        <div id = "winimage"> 
+            <div id="cardlocationwl">
+                <div class="card">
+                    <div class="card-body">
+                        <p id = "winstatus"class="card-text">You Won!!! Congratulations! 
+                        <br>
+                        If you'd like to play again hit any key to guess your first letter again.
+                        <br>
+                        Or you can click the below button to return back to the main menu.
+                        </p>
+                        <a id="resetw" class="btn btn-primary">Main Menu</a>
+                    </div>
+                </div>
+            </div> 
+        </div>
     </div>
 
 
     <div style="display:none" id="lose">
-        <div id = "loseimage"> </div>
+        <div id = "loseimage">
+            <div id="cardlocationwl">
+                <div class="card">
+                    <div class="card-body">
+                        <p id = "winstatus"class="card-text">You Lost!!! 
+                        <br>
+                        If you'd like to play again hit any valid key to guess your first letter again.
+                        <br>
+                        Or you can click the below button to return back to the main menu.
+                        </p>
+                        <a id="resetl" class="btn btn-primary">Main Menu</a>
+                    </div>
+                </div>
+            </div> 
+        </div>
     </div>
 
 

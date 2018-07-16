@@ -18,7 +18,6 @@ body, html {
 }
 
 .body {
-    margin-bottom: 120px; /* Margin bottom by footer height */
     background-image: url(../images/startbackground.png);
   }
 
@@ -36,5 +35,14 @@ body, html {
     position: absolute;
     z-index: 1;
     bottom: 235px;
-    right: 574px;
+    right: 525px;
+    margin-left:200px;
+}
+
+#cardlocationwl{
+    position: absolute;
+    z-index: 1;
+    bottom: 235px;
+    right: 420px;
+    margin-left:200px;
 }

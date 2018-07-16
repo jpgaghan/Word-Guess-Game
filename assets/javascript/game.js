@@ -1,7 +1,7 @@
 
 var alphabet = new RegExp('^[a-z]*$');
 var currentwordArray = []
-var currentwordArray = []
+var usedwordList = []
 var usedAlphabet = []
 var query = $("#startmenu")
 var currentWord, currentwordIndex, blankWord, guessCounter, guesscounterStore, gametypeIndex, blankwordArr
@@ -55,8 +55,13 @@ var funcObject = {
 
 generateWord: function() {
                 blankWord = ""
+                if (gameData[gametypeIndex].wordList.length === 0) {
+                    gameData[gametypeIndex].wordList=usedwordList
+                    usedwordList = []
+                }
                 currentwordIndex = Math.floor(Math.random() * gameData[gametypeIndex].wordList.length);
                 currentWord = gameData[gametypeIndex].wordList[currentwordIndex];
+                usedwordList.push(currentWord)
                 gameData[gametypeIndex].wordList.splice(currentwordIndex, 1)
 
                 for (var x = 0; x < currentWord.length; x++) {
@@ -67,6 +72,7 @@ generateWord: function() {
                     else blankWord = blankWord + "  ";
                 }
                 blankwordArr = blankWord.split("");
+                console.log(blankwordArr)
                 return blankWord
             },
 
@@ -86,25 +92,26 @@ validkeyTest: function() {
                     gameData[gametypeIndex].backgroundSong.loop = true;
                     gameData[gametypeIndex].backgroundSong.play();
                 }
-                if (!$("#lose").is(':visible') && (!$("win").is(':visible')))
                 // test to see if key pressed is a lowercase, previous entry or if it's a letter that hasn't been pressed
-                    if (usedAlphabet.includes(userInput)) {
-                        alert("previously used letter");
-                        gameData[gametypeIndex].mistakeSound.play();
+                if (usedAlphabet.includes(userInput)) {
+                    alert("previously used letter");
+                    gameData[gametypeIndex].mistakeSound.play();
+                }
+                
+                else if (userInput.match(alphabet) == userInput) {
+                    usedAlphabet.push(userInput);
+                    this.guessMatch()
+                }
+                else {
+                    gameData[gametypeIndex].mistakeSound.play();
                     }
-                    
-                    else if (userInput.match(alphabet) == userInput) {
-                        usedAlphabet.push(userInput);
-                        this.guessMatch()
-                    }
-                    else {
-                        gameData[gametypeIndex].mistakeSound.play();
-                        }
                     
 },      
 
 renderHtml :function() {
-                wordSeen = blankwordArr.join(" ");                       
+                wordSeen = blankwordArr.join(" ");
+                console.log(wordSeen)
+                console.log(wordSeen.length)                       
                 var html = "Your current word is " + wordSeen + "<br> Your current guesses left are " + guessCounter + " <br> Current guessed letters " + usedAlphabet + "<br> Win Count: " + winCount + "<br> Lose Count: " + loseCount
                 document.getElementById("gamestatus").innerHTML = html
             if (gameData[gametypeIndex].backgroundSong.loop = false) {
@@ -204,6 +211,7 @@ $(document).ready(function () {
         funcObject.renderHtml();
         $("#difficultyparent").hide();
         $(".game").html('<img class = "bg" src="' + gameData[gametypeIndex].backgroundPicture + '"alt="backgroundimage">');
+        $("body").removeClass("body");
         $(".game").show()
         $("#game").show();
         gameData[gametypeIndex].backgroundSong.loop = true;
@@ -213,15 +221,36 @@ $(document).ready(function () {
 
 
  var userInput = document.onkeyup = function(event) {
-        if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible'))) {
-            userInput = event.key;
+    
+    if ($("#lose").is(':visible') || ($("#win").is(':visible'))) {
+        userInput = event.key;
+            if (userInput === "Enter") {
             funcObject.validkeyTest();
-        }
+            }
+            else alert("Only valid key is enter right now")
+    }
+
+    else if (!$("#startmenu").is(':visible') && (!$("#difficultyparent").is(':visible'))) {
+        userInput = event.key;
+        funcObject.validkeyTest();
+    }
             
     }
 
 $(document).ready(function () {
     $("#reset").click(function () {
+        location.reload();
+    });
+});
+
+$(document).ready(function () {
+    $("#resetl").click(function () {
+        location.reload();
+    });
+});
+
+$(document).ready(function () {
+    $("#resetw").click(function () {
         location.reload();
     });
 });

@@ -1,141 +1,160 @@
 <!DOCTYPE html>
 
- 
+
 
 <html lang="en">
 
- 
+
 
 <head>
 
- 
+
 
     <meta charset="UTF-8">
 
- 
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- 
+
 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
- 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+        crossorigin="anonymous">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
     <script src="assets/javascript/game.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
     <title>Document</title>
 
- 
+
 
 </head>
 
-<body id = "body" class = "body">
-
-    <div id="backgroundimage" class="game">
-    <!-- <div style="display:none" id="loseimage" class="lose"></div>
-    <div style="display:none" id="winimage" class="win"></div> -->
+<body id="body" class="body">
 
     <div id="startmenu">
-            <nav id= "navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
-                    <span class="navbar-brand m-0 h1 w-100 text-center sticky-top"> 
-                        <h2>Word Guess Game</h2> 
-                    </span>
-            </nav>
+        <nav id="navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
+            <span class="navbar-brand m-0 h1 w-100 text-center sticky-top">
+                <h2>Word Guess Game</h2>
+            </span>
+        </nav>
 
-            <div class="jumbotron text-center bg-danger mt-5">
-                    <h2>Select your game's theme to play!</h2>
-                    <p class="lead">
-                            <button id = "start0" type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
-                            <button  id = "start1" type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
-                            <button  id = "start2" type="button" class="btn btn-primary btn-lg start planets">Space</button>
-                            <button  id = "start3" type="button" class="btn btn-primary btn-lg start football">Football</button>
-                    </p>
-                  </div>
+        <div class="jumbotron text-center bg-danger mt-5">
+            <h2>Select your game's theme to play!</h2>
+            <p class="lead">
+                <button id="start0" type="button" class="btn btn-primary btn-lg start christmas">Christmas</button>
+                <button id="start1" type="button" class="btn btn-primary btn-lg start cities">US Cities</button>
+                <button id="start2" type="button" class="btn btn-primary btn-lg start planets">Space</button>
+                <button id="start3" type="button" class="btn btn-primary btn-lg start football">Football</button>
+            </p>
+        </div>
 
 
     </div>
 
     <div style="display:none" id="difficultyparent">
-        
-        <nav id= "navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
-                <span class="navbar-brand m-0 h1 w-100 text-center sticky-top"><h2>Choose your difficulty!</h2></span>
+
+        <nav id="navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
+            <span class="navbar-brand m-0 h1 w-100 text-center sticky-top">
+                <h2>Choose your difficulty!</h2>
+            </span>
         </nav>
         <div class="jumbotron text-center bg-danger mt-5">
             <p class="lead">
-                <button id = "difficulty1"  type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
-                <button id = "difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
-                <button id = "difficulty3"  type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
+                <button id="difficulty1" type="button" class="btn btn-primary btn-lg diffSelector">Hard</button>
+                <button id="difficulty2" type="button" class="btn btn-primary btn-lg diffSelector">Medium</button>
+                <button id="difficulty3" type="button" class="btn btn-primary btn-lg diffSelector">Easy</button>
             </p>
         </div>
-    </div> 
-
-    <div style="display:none" id ="game"> 
-        <div id="cardlocation">
-            <div class="card">
-                <div class="card-body">
-                    <p id = "gamestatus"class="card-text"></p>
-                    <a id="reset" class="btn btn-primary">Main Menu</a>
-                </div>
-            </div>
-        </div>   
     </div>
 
-    <div style="display:none" id="win">
-            <div class ="container">
-                    <div class ="row first-row">
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                        </div>
-                        <div class="col-sm-6">
-                            <div id = "winimage"> 
-                                <div id="cardlocationwl">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p id = "winstatus"class="card-text"><h2>You Won!!! Congratulations!</h2> 
-                                            <br>
-                                            If you'd like to play again hit enter to get your next word.
-                                            <br>
-                                            Or you can click the below button to return back to the main menu.
-                                            </p>
-                                            <a id="resetw" class="btn btn-primary">Main Menu</a>
-                                        </div>
-                                    </div>
-                                </div> 
+    <div style="display:none" id="game">
+        <div class="container">
+            <div class="row first-row">
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6">
+                    <div id="cardlocation">
+                        <div class="card">
+                            <div class="card-body">
+                                <p id="gamestatus" class="card-text"></p>
+                                <a id="reset" class="btn btn-primary">Main Menu</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div style="display:none" id="win">
+        <div class="container">
+            <div class="row first-row">
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6">
+                    <div id="winimage">
+                        <div id="cardlocationwl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p id="winstatus" class="card-text">
+                                        <h2>You Won!!! Congratulations!</h2>
+                                        <br> If you'd like to play again hit enter to get your next word.
+                                        <br> Or you can click the below button to return back to the main menu.
+                                    </p>
+                                    <a id="resetw" class="btn btn-primary">Main Menu</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
 
     <div style="display:none" id="lose">
-        <div id = "loseimage">
-            <div id="cardlocationwl">
-                <div class="card">
-                    <div class="card-body">
-                        <p id = "winstatus"class="card-text"><h2>You Lost!!!</h2> 
-                        <br>
-                        If you'd like to play again hit enter to get your next word.
-                        <br>
-                        Or you can click the below button to return back to the main menu.
-                        </p>
-                        <a id="resetl" class="btn btn-primary">Main Menu</a>
+        <div class="container">
+            <div class="row first-row">
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-6">
+                    <div id="winimage">
+                        <div id="cardlocationwl">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p id="winstatus" class="card-text">
+                                        <h2>You Lost!!!</h2>
+                                        <br> If you'd like to play again hit enter to get your next word.
+                                        <br> Or you can click the below button to return back to the main menu.
+                                    </p>
+                                    <a id="resetw" class="btn btn-primary">Main Menu</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 
-</div>
 </body>
 
 

@@ -21,33 +21,6 @@ body, html {
     background-image: url(../images/startbackground.png);
   }
 
-
-
-.bg {
-    /* Full height */
-    height: 100%;
-    width: 100%;
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-#cardlocation{
-    position: absolute;
-    z-index: 1;
-    bottom: 235px;
-    right: 525px;
-    margin-left:200px;
-}
-
 .first-row{
     height: 200px;
 }
-/* #cardlocationwl{
-    position: absolute;
-    z-index: 1;
-    bottom: 235px;
-    right: 420px;
-    margin-left:200px;
-} */

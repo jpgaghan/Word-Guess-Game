@@ -38,9 +38,9 @@
 
 <body id = "body" class = "body">
 
-    <div style="display:none" id="backgroundimage" class="game"></div>
-    <div style="display:none" id="loseimage" class="lose"></div>
-    <div style="display:none" id="winimage" class="win"></div>
+    <div id="backgroundimage" class="game">
+    <!-- <div style="display:none" id="loseimage" class="lose"></div>
+    <div style="display:none" id="winimage" class="win"></div> -->
 
     <div id="startmenu">
             <nav id= "navbar" class="m-0 navbar navbar-light bg-info sticky-top text-center font-weight-bold">
@@ -88,21 +88,32 @@
     </div>
 
     <div style="display:none" id="win">
-        <div id = "winimage"> 
-            <div id="cardlocationwl">
-                <div class="card">
-                    <div class="card-body">
-                        <p id = "winstatus"class="card-text"><h2>You Won!!! Congratulations!</h2> 
-                        <br>
-                        If you'd like to play again hit enter to get your next word.
-                        <br>
-                        Or you can click the below button to return back to the main menu.
-                        </p>
-                        <a id="resetw" class="btn btn-primary">Main Menu</a>
+            <div class ="container">
+                    <div class ="row first-row">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                        </div>
+                        <div class="col-sm-6">
+                            <div id = "winimage"> 
+                                <div id="cardlocationwl">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p id = "winstatus"class="card-text"><h2>You Won!!! Congratulations!</h2> 
+                                            <br>
+                                            If you'd like to play again hit enter to get your next word.
+                                            <br>
+                                            Or you can click the below button to return back to the main menu.
+                                            </p>
+                                            <a id="resetw" class="btn btn-primary">Main Menu</a>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div> 
-        </div>
+            </div>
     </div>
 
 
@@ -124,7 +135,7 @@
         </div>
     </div>
 
-
+</div>
 </body>
 
 

@@ -80,12 +80,9 @@ validkeyTest: function() {
                 }
                 
                 if ($("#win").is(':visible') || $("#lose").is(':visible')) {
-                    $("#win").hide(); 
-                    $(".win").hide();                 
-                    $("#lose").hide();
-                    $(".lose").hide();                   
+                    $("#win").hide();                 
+                    $("#lose").hide();                  
                     $("#game").show();
-                    $(".game").show();
                     gameData[gametypeIndex].winsoundFile.pause();
                     gameData[gametypeIndex].backgroundSong.loop = true;
                     gameData[gametypeIndex].backgroundSong.play();
@@ -129,10 +126,8 @@ winLose :function () {
                 gameData[gametypeIndex].backgroundSong.pause();
                 gameData[gametypeIndex].winsoundFile.currentTime = 0
                 gameData[gametypeIndex].winsoundFile.play();
-                $(".win").html('<img class = "bg" src="' + gameData[gametypeIndex].winPicture + '"alt="backgroundimage">');
-                $(".game").hide();
+                document.body.style.backgroundImage = "url("+gameData[gametypeIndex].winPicture+")";
                 $("#game").hide();
-                $(".win").show();
                 $("#win").show();
             }
             if (guessCounter === 0) {
@@ -147,11 +142,9 @@ winLose :function () {
                 gameData[gametypeIndex].backgroundSong.pause();
                 gameData[gametypeIndex].losesoundFile.currentTime = 0
                 gameData[gametypeIndex].losesoundFile.play();
-                $(".lose").html('<img class = "bg" src="' + gameData[gametypeIndex].losePicture + '"alt="backgroundimage">');
+                document.body.style.backgroundImage = "url("+gameData[gametypeIndex].losePicture+")";
                 $("#game").hide();
-                $(".game").hide();
                 $("#lose").show();
-                $(".lose").show();
             }
             this.renderHtml()
         },
@@ -205,9 +198,8 @@ $(document).ready(function () {
         funcObject.generateWord();
         funcObject.renderHtml();
         $("#difficultyparent").hide();
-        $(".game").html('<img class = "bg" src="' + gameData[gametypeIndex].backgroundPicture + '"alt="backgroundimage">');
+        document.body.style.backgroundImage = "url("+gameData[gametypeIndex].backgroundPicture+")";
         $("body").removeClass("body");
-        $(".game").show()
         $("#game").show();
         gameData[gametypeIndex].backgroundSong.loop = true;
         gameData[gametypeIndex].backgroundSong.play();
